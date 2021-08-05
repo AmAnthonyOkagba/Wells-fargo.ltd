@@ -51,20 +51,20 @@
         </div>
         <div class="divider" style="margin-bottom: 30px;"></div>
        
-          <form action="#">
+          <form action="reglog.php" method="POST">
             <div class="row">
                 <div class="col l6">
-                    <input type="text" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="Username" class="validate" required>
+                    <input type="text" name="username" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="Username" class="validate" required>
                 </div>
                 <div class="col l6">
-                    <input type="password" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="Password" class="validate" required>
+                    <input type="password" name="password" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="Password" class="validate" required>
                 </div>
             </div>
            
            <div class="divider"></div>
            <div class="modal-footer">
             <a href="#" >
-            <input type="submit" class="btn" style="border-radius: 30px; color:lightcyan;
+            <input type="submit" name="login_btn" class="btn" style="border-radius: 30px; color:lightcyan;
              background-color:rgb(143, 178, 231); font-weight: bold;" value="LOGIN">
             </a>
             </div>

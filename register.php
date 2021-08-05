@@ -1,125 +1,3 @@
-<?php
-include('config.php');
-
-if(isset($_POST['regsub']))
-{
-    $_SESSION["fname"] = $fname = isset( $_POST[ "fname" ] ) ? trim( $_POST[ "fname" ] ) : "";
-    $_SESSION["lname"] = $lname = isset( $_POST[ "lname" ] ) ? trim( $_POST[ "lname" ] ) : "";
-    $_SESSION["email"] = $email = isset( $_POST[ "email" ] ) ? trim( $_POST[ "email" ] ) : "";
-    $_SESSION["password"] = $password = isset( $_POST[ "password" ] ) ? trim( $_POST[ "password" ] ) : "";
-    $_SESSION["cpassword"] = $cpassword = isset( $_POST[ "cpassword" ] ) ? trim( $_POST[ "cpassword" ] ) : "";
-    $fname = ucwords( $fname );
-    $lname = ucwords( $lname );
-    $email = strtolower( $email );
-    
-    function isEmail($email) {
-        return(preg_match("/^[-_.[:alnum:]]+@((([[:alnum:]]|[[:alnum:]][[:alnum:]-]*[[:alnum:]])\.)+(ad|ae|aero|af|ag|ai|al|am|an|ao|aq|ar|arpa|as|at|au|aw|az|ba|bb|bd|be|bf|bg|bh|bi|biz|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|com|coop|cr|cs|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|in|info|int|io|iq|ir|is|it|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nt|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|pro|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$|(([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])\.){3}([0-9][0-9]?|[0-1][0-9][0-9]|[2][0-4][0-9]|[2][5][0-5]))$/i",$email));
-    }
-
-    if( empty( $fname ) or empty( $lname ) or empty( $email )
-    or empty( $number ) or empty( $password ) or empty( $cpassword ) ) {
-    echo "<div class='alert alert-danger'>";
-    echo "<i class='fa fa-exclamation-triange'></i>";
-    echo "All fields are requred!";
-    echo "</div>";
-    } else {
-    //Sanitize all inputs
-    //For name
-    if( preg_match( "/([^a-z0-9\s]+)/i", $fname ) ) {
-        $errors = "First Name cannot contain special characters.";
-        echo $errors;
-    }  else
-    
-    if( preg_match( "/([^a-z0-9\s]+)/i", $lname ) ) {
-        $errors = "Last Name cannot contain special characters.";
-        echo $errors;
-    }  else
-
-    //Email
-    if( !filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-        $errors = "Invalid email address entered";
-        echo $errors;
-    } else
-
-    //For number
-    if( strlen( $number ) > 11 ) {
-        $errors = "Number should not be more than 11.";
-        echo $errors;
-    } else {
-
-
-    if(trim($fname) == '') {
-        $_SESSION['status'] = "Enter your First Name";
-        header('location: register'); 
-        exit();
-    } else if(trim($lname) == '') {
-        $_SESSION['status'] = "Enter your  Last Name";
-        header('location: register'); 
-        exit();
-    } else if(trim($password) == '') {
-        $_SESSION['status'] = "Enter your Password.";
-        header('location: register'); 
-        exit();
-    } else if(trim($cpassword) == '') {
-        $_SESSION['status'] = "Enter your Password.";
-        header('location: register'); 
-        exit();
-    }  else if(trim($email) == '') {
-        $_SESSION['status'] = "Enter a valid Email Address.";
-        header('location: register'); 
-        exit();
-    } else if(!isEmail($email)) {
-        $_SESSION['status'] = "You have enter an invalid E-mail Address, try again.";
-        header('location: register'); 
-        exit();
-    }
-
-
-    $email_query = "SELECT * FROM users WHERE email='$email'";
-    $email_query_run = mysqli_query($con, $email_query);
-    if(mysqli_num_rows($email_query_run) > 0)
-    {
-        $_SESSION['status'] = "Email already Taken";
-        header('location: register');
-    }
-    else
-    {
-
-        if ($password === $cpassword)
-        {
-            $query = "INSERT INTO users (fname,lname,email,password) 
-            VALUE ('$fname','$lname','$email','$password')";
-            $query_run = mysqli_query($con,$query);
-        
-            if($query_run)
-            {
-                $_SESSION['email'] = $email;
-                $_SESSION['success'] = "Profile Added";
-                header('location: index');
-            }
-            else 
-            {
-                $_SESSION['status'] = "Profile Not Added";
-                header('location: register');
-            }    
-        }
-        else
-        {
-            $_SESSION['status'] = "Password and Confirm Password Does Not Match";
-            header('location: register');
-        }
-    }
-}
-}
-
-
-
-?>
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,10 +36,10 @@ if(isset($_POST['regsub']))
 <!-- Register-modal  -->
 <div class="modal" id="register">
     <div class="modal-content">
-        <div class="row">    
+        <div class="row">
             <ul>
                 <li>
-                    <span style="font-weight: bold; color: rgb(143, 178, 231);">REGISTER</span>         
+                    <span style="font-weight: bold; color: rgb(143, 178, 231);">REGISTER</span>
                     <i class="fa fa-close fa-2x modal-close" style="color: rgb(143, 178, 231); margin-left: 700px;"></i>     
                 </li>
                 <div class="divider" style="margin-top: 20px;"></div>
@@ -169,12 +47,12 @@ if(isset($_POST['regsub']))
             </ul>
         </div>
         <div class="divider" style="margin-bottom: 30px;"></div>
-       
-          <form action="register.php" method="POST">
+
+          <form action="reglog.php" method="POST">
             <div class="row">
                 <div class="col l6">
                     <input type="text" name="fname" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="First Name" class="validate" required>
-                    <span style="color:red; font-size:12px; padding:0;" ><?php echo $errors ?></span>
+                    <span style="color:red; font-size:12px; padding:0;" >
                 </div>
                 <div class="col l6">
                     <input type="text" name="lname" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" 
@@ -186,7 +64,7 @@ if(isset($_POST['regsub']))
                     <input type="password" name="password" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="Password" class="validate" required>
                 </div>
                 <div class="col l6">
-                    <input type="password"  style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" 
+                    <input type="password" name="cpassword" style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" 
                     placeholder="Re-Type Password" minlength="6" maxlength="10" class="validate" required>
                 </div>
             </div>
@@ -228,7 +106,7 @@ if(isset($_POST['regsub']))
             </div>
             <div class="row">
                 <div class="col l6">
-                    <input type="text" readonly style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="Your Upline">
+                    <input type="text" read only style="border:rgb(83, 136, 216) solid 1px; border-radius: 10px; padding-left: 10px;" placeholder="Your Upline">
                 </div>
                 <div class="col l6" style="margin-top: 10px;">
                   
@@ -250,7 +128,6 @@ if(isset($_POST['regsub']))
         </div>
        
 </div>
-<?php }?>
 
 
 <script src="js/jquery.js"></script>
